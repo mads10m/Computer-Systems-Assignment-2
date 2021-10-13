@@ -33,7 +33,7 @@ YLOOP:
 	JEQ SETBLACK, R2, R0
 
 	# Load inpiu pixel
-	LD, R3, R4
+	LD R3, R4
 
 
 	# If image is black
