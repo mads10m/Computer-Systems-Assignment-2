@@ -41,22 +41,22 @@ YLOOP:
 
 	# If cross is not detected
 	# x - 1
-	SUBI R5, R1, 1
+	SUBI R5, R4, 1
 	LD R6, R5
 	JZ SETBLACK, R6
 
 	# x + 1
-	ADDI R5, R1, 1
+	ADDI R5, R4, 1
 	LD R6, R5
 	JZ SETBLACK, R6
 
 	# y - 1
-	SUBI R5, R2, 20
+	SUBI R5, R4, 20
 	LD R6, R5
 	JZ SETBLACK, R6
 
 	# y + 1
-	ADDI R5, R2, 20
+	ADDI R5, R4, 20
 	LD R6, R5
 	JZ SETBLACK, R6
 
