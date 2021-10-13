@@ -1,3 +1,4 @@
+# TODO don't set registers to 0 (except if we read from them)
 INIT:
 	LI R0, 19 	#
 	LI R1, 1 	# x counter is register R1
