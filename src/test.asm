@@ -1,0 +1,4 @@
+INIT:
+	LI R0, 0
+LABEL:
+	JM INIT
