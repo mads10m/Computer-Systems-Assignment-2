@@ -1,8 +1,8 @@
 # TODO don't set registers to 0 (except if we read from them)
 INIT:
 	LI R0, 19 	#
-	LI R1, 1 	# x counter is register R1
-	LI R2, 1 	# y counter is register R2
+	LI R1, 0 	# x counter is register R1
+	LI R2, 0 	# y counter is register R2
 	LI R3, 0 	#
 	LI R4, 0 	#
 	LI R5, 0 	#
@@ -20,15 +20,15 @@ YLOOP:
 	# Calc index of input pixel
 	# TODO can mabye use less registers
 	MULI R3, R2, 20
-	ADD R4, R2, R3
+	ADD R4, R1, R3
 
 	# Test if it is at the border
 	# x = 0
-	JZ R1, SETBLACK
+	JZ SETBLACK, R1
 	# x = 19
 	JEQ SETBLACK, R1, R0
 	# y = 0
-	JZ R2, SETBLACK
+	JZ SETBLACK, R2
 	# y = 19
 	JEQ SETBLACK, R2, R0
 
@@ -37,28 +37,28 @@ YLOOP:
 
 
 	# If image is black
-	JZ R3, WPIXEL
+	JZ WPIXEL, R3
 
 	# If cross is not detected
 	# x - 1
 	SUBI R5, R1, 1
 	LD R6, R5
-	JZ R6, SETBLACK
+	JZ SETBLACK, R6
 
 	# x + 1
 	ADDI R5, R1, 1
 	LD R6, R5
-	JZ R6, SETBLACK
+	JZ SETBLACK, R6
 
 	# y - 1
 	SUBI R5, R2, 20
 	LD R6, R5
-	JZ R6, SETBLACK
+	JZ SETBLACK, R6
 
 	# y + 1
 	ADDI R5, R2, 20
 	LD R6, R5
-	JZ R6, SETBLACK
+	JZ SETBLACK, R6
 
 	# R3 is already 255
 	JR WPIXEL
