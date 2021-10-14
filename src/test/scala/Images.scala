@@ -111,9 +111,9 @@ object Images{
           System.out.print("?  ")
         }
       }
-      System.out.print("\r\n")
+      System.out.println("")
     }
-    System.out.print("\r\n")
+    System.out.println("")
   }
 
 }
