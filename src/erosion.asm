@@ -1,3 +1,20 @@
+# Instruction set
+# LI 0000
+# LD 0001
+# SD 0010
+
+# JNE 0011
+# JZ 0100
+# JEQ 0101
+# JR 0110
+
+# MULI 0111
+# ADD 1000
+# ADDI 1001
+# SUBI 1010
+
+# HALT 1011
+
 # TODO don't set registers to 0 (except if we read from them)
 INIT:
 	LI R0, 19 	#
@@ -5,7 +22,6 @@ INIT:
 	LI R2, 0 	# y counter is register R2
 	LI R3, 0 	#
 	LI R4, 0 	#
-	LI R5, 0 	#
 	LI R5, 0 	#
 	LI R6, 0 	#
 	LI R7, 20	#
