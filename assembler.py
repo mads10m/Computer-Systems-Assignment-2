@@ -19,7 +19,7 @@ def main():
         "ADDI": "1001",
         "ADD": "1000",
         "SUBI": "1010",
-        "HALT": "1011"
+        "END": "1011"
         }
 
     registers = dict()

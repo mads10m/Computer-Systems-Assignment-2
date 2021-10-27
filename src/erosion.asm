@@ -90,5 +90,5 @@ CONTINUE:
 	# Test if x is 20. Jump to XLOOP if true
 	ADDI R1, 1
 	JNE XLOOP, R1, R7
-	
-	HALT
+HALT:
+	END
