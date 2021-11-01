@@ -3,9 +3,26 @@ import chisel3.util._
 
 class ALU extends Module {
   val io = IO(new Bundle {
-    //Define the module interface here (inputs/outputs)
+    val sel = Input(UInt(2.W))
+    val op1 = Input(UInt(32.W))
+    val op2 = Input(UInt(32.W))
+    val res = Output(UInt(32.W))
+    val compRes = Output(UInt(3.W))
   })
 
   //Implement this module here
 
+  io.res := WireDefault(0.U)
+
+  switch(io.sel){
+    is("b00".U) {io.res := io.op1 + io.op2}
+    is("b01".U) {io.res := io.op1 - io.op2}
+    is("b10".U) {io.res := io.op1 * io.io2}
+  }
+
+  when(io.op1 === io.op2 ){
+    io.compRes := 0.U
+  } .elsewhen(io.op1 =/= io.op2){
+    io.compRes := 1.U
+  }
 }
