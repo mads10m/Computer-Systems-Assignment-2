@@ -4,7 +4,8 @@ def main():
     label_regex = re.compile(r'([A-Z]+):')
     number_regex = re.compile(r'(?:[^A-Z])(\d+)')
     li_regex = re.compile(r'LI (R\d) (\d+)')
-    jz_regex = re.compile(r'(?:JZ) (\w+ R\d)')
+    jz_regex = re.compile(r'JZ (\w+ R\d)')
+    jr_regex = re.compile(r'JR (\w+)')
 
     arr = []
     labels = dict()
@@ -15,12 +16,12 @@ def main():
         "JNE": "0010",
         # "JZ": "0011",
         "JEQ": "0011",
-        "JR": "0100",
-        "MULI": "0101",
-        "ADDI": "0110",
-        "ADD": "0111",
-        "SUBI": "1000",
-        "END": "1001"
+        # "JR": "0100",
+        "MULI": "0100",
+        "ADDI": "0101",
+        "ADD": "0110",
+        "SUBI": "0111",
+        "END": "1000"
         }
 
     registers = dict()
@@ -53,6 +54,9 @@ def main():
 
     with open("erosion.bin","w") as f:
         for line in arr:
+            res = re.search(jr_regex, line)
+            if res != None:
+                line = f'JEQ {res.group(1)} R0 R0\n'
             res = re.search(jz_regex, line)
             if res != None:
                 line = f'JEQ {res.group(1)} R0\n'

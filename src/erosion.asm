@@ -1,22 +1,19 @@
 # Instruction set
-# LI -> ADDI
-# LI R I
+# LI R I -> ADDI R R0 I
 # LD 0000
 # SD 0001 0000
 
-# Make li = addi with 0 register
-
 # JNE 0010 T R R
-# JZ 0011 T R -> JEQ
-# JEQ 0100 T R R
-# JR 0101 T
+# JZ T R -> JEQ T R R0
+# JEQ 0011 T R R
+# JR T -> JR T R0 R0
 
-# MULI 0110 R R I
-# ADD 0111 R R R
-# ADDI 1000 R R I
-# SUBI 1001 R R I
+# MULI 0100 R R I
+# ADD 0101 R R R
+# ADDI 0110 R R I
+# SUBI 0111 R R I
 
-# END 1010
+# END 1000
 
 # TODO don't set registers to 0 (except if we read from them)
 INIT:
