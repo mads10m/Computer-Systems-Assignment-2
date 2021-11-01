@@ -76,7 +76,9 @@ def main():
             for r in registers:
                 line = line.replace(r, str(registers[r]))
             line = line.replace(" ","")
-            line = line.replace("\n", "0" * (32-len(line)) + "\n")
+            line = line.replace("\n","")
+            line = line + "0" * (32-len(line))
+            line = f'h"{line}".U(32.W),\n'
             f.write(line)
 
 if __name__ == "__main__":
