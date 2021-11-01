@@ -7,6 +7,7 @@ class ControlUnit extends Module {
 
     val end = Output(Bool())
     val branchSel = Output(UInt(2.W))
+    val branchInstruction = Output(Bool())
     val loadFromMem = Output(Bool())
     val registerWrite = Output(Bool())
     val immediate = Output(Bool())
@@ -15,11 +16,12 @@ class ControlUnit extends Module {
   })
 
   io.end := WireDefault(Bool(false))
-  io.branchSel := WireDefault(0.U)
+  io.branchSel := WireDefault("b00".U)
+  io.branchInstruction := WireDefault(Bool(false))
   io.loadFromMem := WireDefault(Bool(false))
   io.registerWrite := WireDefault(Bool(false))
   io.immediate := WireDefault(Bool(false))
-  io.aluSel := WireDefault(0.U)
+  io.aluSel := WireDefault("b00".U)
   io.memoryWrite := WireDefault(Bool(false))
 
   switch(io.opcode){
@@ -32,9 +34,11 @@ class ControlUnit extends Module {
     }
     is("b0010".U) { //JNE
       io.branchSel := "b01".U
+      io.branchInstruction := Bool(true)
     }
     is("b0011".U) { // JEQ
       io.branchSel := "b10".U
+      io.branchInstruction := Bool(true)
     }
     is("b0100".U){ // MULI
       io.registerWrite := Bool(true)
