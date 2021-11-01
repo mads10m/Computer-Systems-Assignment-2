@@ -7,7 +7,7 @@ class ALU extends Module {
     val op1 = Input(UInt(32.W))
     val op2 = Input(UInt(32.W))
     val res = Output(UInt(32.W))
-    val compRes = Output(UInt(3.W))
+    val compRes = Output(Bool())
   })
 
   //Implement this module here
@@ -20,9 +20,10 @@ class ALU extends Module {
     is("b10".U) {io.res := io.op1 * io.io2}
   }
 
-  when(io.op1 === io.op2 ){
-    io.compRes := 0.U
-  } .elsewhen(io.op1 =/= io.op2){
-    io.compRes := 1.U
-  }
+  io.compRes := io.op1 === io.op2
+  // when(io.op1 === io.op2 ){
+  //   io.compRes := Bool(true)
+  // } .elsewhen(io.op1 =/= io.op2){
+  //   io.compRes := Bool(false)
+  // }
 }
