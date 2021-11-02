@@ -78,7 +78,7 @@ def main():
             line = line.replace(" ","")
             line = line.replace("\n","")
             line = line + "0" * (32-len(line))
-            line = f'h"{line}".U(32.W),\n'
+            line = f'"b{line}".U(32.W),\n'
             f.write(line)
 
 if __name__ == "__main__":
