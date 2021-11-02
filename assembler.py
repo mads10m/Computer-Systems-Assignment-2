@@ -3,9 +3,10 @@ import re
 def main():
     label_regex = re.compile(r'([A-Z]+):')
     number_regex = re.compile(r'(?:[^A-Z])(\d+)')
-    li_regex = re.compile(r'LI (R\d) (\d+)')
-    jz_regex = re.compile(r'JZ (\w+ R\d)')
+    li_regex = re.compile(r'LI (R\d+) (\d+)')
+    jz_regex = re.compile(r'JZ (\w+ R\d+)')
     jr_regex = re.compile(r'JR (\w+)')
+    ld_regex = re.compile(r'LD (R\d+) (R\d+)')
 
     arr = []
     labels = dict()
@@ -29,11 +30,10 @@ def main():
         registers["R" + str(i)] = "{0:04b}".format(i)
 
     # Remove whitespaces, empty lines, comments
-    with open("src/test.asm","r") as f:
+    with open("src/erosion.asm","r") as f:
         for i,line in enumerate(f):
-            line.strip().upper()
+            line = line.strip().upper().replace("\t","").replace(",","")
             s = ""
-            line = line.replace("\t","").replace(",","")
             for c in line:
                 if c == "#":
                     break
@@ -63,6 +63,9 @@ def main():
             res = re.search(li_regex, line)
             if res != None:
                 line = f'ADDI {res.group(1)} R0 {res.group(2)}\n'
+            res = re.search(ld_regex,line)
+            if res != None:
+                line = f'LD {res.group(1)} R0 {res.group(2)}\n'
             res = re.search(number_regex, line)
             if(res != None):
                 for i in range(res.lastindex):

@@ -24,11 +24,11 @@ class ControlUnit extends Module {
   io.aluSel := WireDefault("b00".U)
   io.memoryWrite := WireDefault(false.B)
 
-  switch(io.opcode){
+  switch(io.opcode) {
     is("b0000".U) { // LD
       io.loadFromMem := true.B
       io.registerWrite := true.B
-      }
+    }
     is("b0001".U) { // SD
       io.memoryWrite := true.B
     }
@@ -40,7 +40,7 @@ class ControlUnit extends Module {
       io.branchSel := "b10".U
       io.branchInstruction := true.B
     }
-    is("b0100".U){ // MULI
+    is("b0100".U) { // MULI
       io.registerWrite := true.B
       io.immediate := true.B
       io.aluSel := "b10".U
@@ -54,12 +54,12 @@ class ControlUnit extends Module {
       io.immediate := true.B
       // aluSel := "b00".U
     }
-    is("b0111".U){ // SUBI
+    is("b0111".U) { // SUBI
       io.registerWrite := true.B
       io.immediate := true.B
       io.aluSel := "b01".U
     }
-    is("b1000".U){ // END
+    is("b1000".U) { // END
       io.end := true.B
     }
   }

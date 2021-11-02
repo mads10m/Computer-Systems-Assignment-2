@@ -15,7 +15,7 @@ class CPUTopTester(dut: CPUTop) extends PeekPokeTester(dut) {
   //var image = Images.whiteImage
   var image = Images.cellsImage
   //var image = Images.borderCellsImage
-  for( address <- 0 to image.length-1){
+  for (address <- 0 to image.length - 1) {
     poke(dut.io.testerDataMemEnable, 1)
     poke(dut.io.testerDataMemWriteEnable, 1)
     poke(dut.io.testerDataMemAddress, address)
@@ -30,8 +30,7 @@ class CPUTopTester(dut: CPUTop) extends PeekPokeTester(dut) {
   //Uncomment one of the following line depending on the program you want to load to the program memory
   val program = Programs.program1
   //val program = Programs.program2
-  //val program = Programs.program3
-  for( address <- 0 to program.length-1){
+  for (address <- 0 to program.length - 1) {
     poke(dut.io.testerProgMemEnable, 1)
     poke(dut.io.testerProgMemWriteEnable, 1)
     poke(dut.io.testerProgMemAddress, address)
@@ -48,8 +47,10 @@ class CPUTopTester(dut: CPUTop) extends PeekPokeTester(dut) {
   var running = true
   var maxInstructions = 20000
   var instructionsCounter = maxInstructions
-  while(running) {
-    System.out.print("\rRunning cycle: " + (maxInstructions - instructionsCounter))
+  while (running) {
+    System.out.print(
+      "\rRunning cycle: " + (maxInstructions - instructionsCounter)
+    )
     step(1)
     instructionsCounter = instructionsCounter - 1
     running = peek(dut.io.done) == 0 && instructionsCounter > 0
@@ -60,7 +61,7 @@ class CPUTopTester(dut: CPUTop) extends PeekPokeTester(dut) {
   //Dump the data memory content
   System.out.print("\nDump the data memory content... ")
   val inputImage = new util.ArrayList[Int]
-  for( i <- 0 to 399){ //Location of the original image
+  for (i <- 0 to 399) { //Location of the original image
     poke(dut.io.testerDataMemEnable, 1)
     poke(dut.io.testerDataMemWriteEnable, 0)
     poke(dut.io.testerDataMemAddress, i)
@@ -70,7 +71,7 @@ class CPUTopTester(dut: CPUTop) extends PeekPokeTester(dut) {
     step(1)
   }
   val outputImage = new util.ArrayList[Int]
-  for( i <- 400 to 799){ //Location of the processed image
+  for (i <- 400 to 799) { //Location of the processed image
     poke(dut.io.testerDataMemEnable, 1)
     poke(dut.io.testerDataMemWriteEnable, 0)
     poke(dut.io.testerDataMemAddress, i)
@@ -95,13 +96,17 @@ object CPUTopTester {
   def main(args: Array[String]): Unit = {
     println("Testing the full CPU")
     iotesters.Driver.execute(
-      Array("--generate-vcd-output", "on",
-        "--target-dir", "generated",
-        "--top-name", "CPUTop"),
-      () => new CPUTop()) {
-      c => new CPUTopTester(c)
+      Array(
+        "--generate-vcd-output",
+        "on",
+        "--target-dir",
+        "generated",
+        "--top-name",
+        "CPUTop"
+      ),
+      () => new CPUTop()
+    ) { c =>
+      new CPUTopTester(c)
     }
   }
 }
-
-

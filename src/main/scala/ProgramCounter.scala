@@ -12,10 +12,10 @@ class ProgramCounter extends Module {
 
   val RegCounter = RegInit(0.U(16.W))
 
-  when (!(!io.run || io.stop)){
-    when(io.jump){
+  when(!(!io.run || io.stop)) {
+    when(io.jump) {
       RegCounter := io.programCounterJump
-    } .otherwise {
+    }.otherwise {
       RegCounter := 1.U + RegCounter
     }
   }

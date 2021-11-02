@@ -14,10 +14,10 @@ class ALU extends Module {
 
   io.res := WireDefault(0.U)
 
-  switch(io.sel){
-    is("b00".U) {io.res := io.op1 + io.op2}
-    is("b01".U) {io.res := io.op1 - io.op2}
-    is("b10".U) {io.res := io.op1 * io.op2}
+  switch(io.sel) {
+    is("b00".U) { io.res := io.op1 + io.op2 }
+    is("b01".U) { io.res := io.op1 - io.op2 }
+    is("b10".U) { io.res := io.op1 * io.op2 }
   }
 
   io.compRes := io.op1 === io.op2

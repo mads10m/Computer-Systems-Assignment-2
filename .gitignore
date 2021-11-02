@@ -4,3 +4,6 @@ generated/*
 .vscode/
 project/
 target/
+.bloop/
+.metals/
+.scalafmt.conf

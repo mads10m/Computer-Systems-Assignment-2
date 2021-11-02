@@ -91,31 +91,37 @@ class ControlUnitTester(dut: ControlUnit) extends PeekPokeTester(dut) {
   expect(dut.io.branchSel, "b00".U)
   expect(dut.io.branchInstruction, false.B)
   expect(dut.io.loadFromMem, false.B)
-  expect(dut.io.registerWrite,true.B)
+  expect(dut.io.registerWrite, true.B)
   expect(dut.io.aluSel, "b01".U)
-  expect(dut.io.memoryWrite,false.B)
+  expect(dut.io.memoryWrite, false.B)
   step(1)
 
   println("End")
-  poke(dut.io.opcode,"b1000".U)
-  expect(dut.io.end,true.B)
-  expect(dut.io.branchSel,"b00".U)
+  poke(dut.io.opcode, "b1000".U)
+  expect(dut.io.end, true.B)
+  expect(dut.io.branchSel, "b00".U)
   expect(dut.io.branchInstruction, false.B)
-  expect(dut.io.loadFromMem,false.B)
-  expect(dut.io.registerWrite,false.B)
-  expect(dut.io.aluSel,"b00".U)
-  expect(dut.io.memoryWrite,false.B)
+  expect(dut.io.loadFromMem, false.B)
+  expect(dut.io.registerWrite, false.B)
+  expect(dut.io.aluSel, "b00".U)
+  expect(dut.io.memoryWrite, false.B)
 }
 
 object ControlUnitTester {
   def main(args: Array[String]): Unit = {
     println("Testing Control Unit")
     iotesters.Driver.execute(
-      Array("--generate-vcd-output", "on",
-        "--target-dir", "generated",
-        "--top-name", "ProgramCounter"),
-      () => new ControlUnit()) {
-      c => new ControlUnitTester(c)
+      Array(
+        "--generate-vcd-output",
+        "on",
+        "--target-dir",
+        "generated",
+        "--top-name",
+        "ProgramCounter"
+      ),
+      () => new ControlUnit()
+    ) { c =>
+      new ControlUnitTester(c)
     }
   }
 }

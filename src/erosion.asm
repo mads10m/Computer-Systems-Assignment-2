@@ -6,7 +6,7 @@
 # JNE 0010 T R R
 # JZ T R -> JEQ T R R0
 # JEQ 0011 T R R
-# JR T -> JR T R0 R0
+# JR T -> JEQ T R0 R0
 
 # MULI 0100 R R I
 # ADD 0101 R R R
@@ -27,7 +27,6 @@ INIT:
 	# LI R7, 0 	#
 	LI R8, 20	#
 
-	LI R2, 0
 XLOOP:
 	LI R3, 0
 YLOOP:
@@ -86,11 +85,11 @@ WPIXEL:
 	SD R4, R6
 CONTINUE:
 	# Test if y is 20. Jump to YLOOP if true
-	ADDI R3, R0, 1
+	ADDI R3, R3, 1
 	JNE YLOOP, R3, R8
 
 	# Test if x is 20. Jump to XLOOP if true
-	ADDI R2, R0, 1
+	ADDI R2, R2, 1
 	JNE XLOOP, R2, R8
 HALT:
 	END
