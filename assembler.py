@@ -1,12 +1,22 @@
 import re
+import sys
 
 def main():
+
+    if len(sys.argv)!=2:
+        print(f'Given arguments: {str(sys.argv)}')
+        print("Using erosion.asm as assembler code file")
+        asm_file = "erosion.asm"
+    else:
+        asm_file = sys.argv[1]
+
     label_regex = re.compile(r'([A-Z]+):')
-    number_regex = re.compile(r'(?:[^A-Z])(\d+)')
+    number_regex = re.compile(r' (\d+)')
     li_regex = re.compile(r'LI (R\d+) (\d+)')
     jz_regex = re.compile(r'JZ (\w+ R\d+)')
     jr_regex = re.compile(r'JR (\w+)')
     ld_regex = re.compile(r'LD (R\d+) (R\d+)')
+    r_regex = re.compile(r'(R\d+)')
 
     arr = []
     labels = dict()
@@ -30,7 +40,7 @@ def main():
         registers["R" + str(i)] = "{0:04b}".format(i)
 
     # Remove whitespaces, empty lines, comments
-    with open("src/erosion.asm","r") as f:
+    with open(asm_file,"r") as f:
         for i,line in enumerate(f):
             line = line.strip().upper().replace("\t","").replace(",","")
             s = ""
@@ -52,7 +62,7 @@ def main():
             labels[res.group(1)] = "{0:06b}".format(i)
             arr.pop(i)
 
-    with open("erosion.bin","w") as f:
+    with open("out.bin","w") as f:
         for line in arr:
             res = re.search(jr_regex, line)
             if res != None:
@@ -76,8 +86,10 @@ def main():
                 # print(f'{l}, {str(labels[l])}')
             for i in isa:
                 line = line.replace(i, isa[i])
-            for r in registers:
-                line = line.replace(r, str(registers[r]))
+            res = re.findall(r_regex, line)
+            if(res != None):
+                for r in res:
+                    line = line.replace(r, registers[r])
             line = line.replace(" ","").replace(":","").replace("\n","")
             line = line + "0" * (32-len(line))
             line = f'"b{line}".U(32.W),'

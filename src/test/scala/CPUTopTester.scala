@@ -14,7 +14,7 @@ class CPUTopTester(dut: CPUTop) extends PeekPokeTester(dut) {
   //var image = Images.blackImage
   //var image = Images.whiteImage
   var image = Images.cellsImage
-  //var image = Images.borderCellsImage
+  // var image = Images.borderCellsImage
   for (address <- 0 to image.length - 1) {
     poke(dut.io.testerDataMemEnable, 1)
     poke(dut.io.testerDataMemWriteEnable, 1)
