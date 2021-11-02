@@ -52,8 +52,9 @@ class ControlUnit extends Module {
     is("b0110".U) { // ADDI
       io.registerWrite := true.B
       io.immediate := true.B
+      // aluSel := "b00".U
     }
-    is("b0111".U){ // MULI
+    is("b0111".U){ // SUBI
       io.registerWrite := true.B
       io.immediate := true.B
       io.aluSel := "b01".U

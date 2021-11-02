@@ -18,8 +18,8 @@ def main():
         "JEQ": "0011",
         # "JR": "0100",
         "MULI": "0100",
-        "ADDI": "0101",
-        "ADD": "0110",
+        "ADDI": "0110",
+        "ADD": "0101",
         "SUBI": "0111",
         "END": "1000"
         }
@@ -29,7 +29,7 @@ def main():
         registers["R" + str(i)] = "{0:04b}".format(i)
 
     # Remove whitespaces, empty lines, comments
-    with open("src/erosion.asm","r") as f:
+    with open("src/test.asm","r") as f:
         for i,line in enumerate(f):
             line.strip().upper()
             s = ""
@@ -67,7 +67,7 @@ def main():
             if(res != None):
                 for i in range(res.lastindex):
                     num = res.group(i)
-                    line = line.replace(num, " {0:05b}".format(int(num))).replace(":","")
+                    line = line.replace(num, " {0:016b}".format(int(num)))
             for l in labels:
                 line = line.replace(l, str(labels[l]))
                 # print(f'{l}, {str(labels[l])}')
@@ -75,10 +75,10 @@ def main():
                 line = line.replace(i, isa[i])
             for r in registers:
                 line = line.replace(r, str(registers[r]))
-            line = line.replace(" ","")
-            line = line.replace("\n","")
+            line = line.replace(" ","").replace(":","").replace("\n","")
             line = line + "0" * (32-len(line))
-            line = f'"b{line}".U(32.W),\n'
+            line = f'"b{line}".U(32.W),'
+            line = line + "\n"
             f.write(line)
 
 if __name__ == "__main__":

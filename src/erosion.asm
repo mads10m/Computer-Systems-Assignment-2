@@ -27,6 +27,7 @@ INIT:
 	# LI R7, 0 	#
 	LI R8, 20	#
 
+	LI R2, 0
 XLOOP:
 	LI R3, 0
 YLOOP:
@@ -48,7 +49,7 @@ YLOOP:
 	# y = 19
 	JEQ SETBLACK, R3, R1
 
-	# Load inpiu pixel
+	# Load input pixel
 	LD R4, R5
 
 

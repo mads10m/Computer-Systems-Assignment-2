@@ -52,7 +52,7 @@ class CPUTop extends Module {
   // ALU Input
   alu.io.op1 := registerFile.io.data1
   alu.io.sel := controlUnit.io.aluSel
-  alu.io.op2:= Mux(controlUnit.io.immediate, Cat(Fill(16,"b0".U),programMemory.io.instructionRead(19,15)), registerFile.io.data2)
+  alu.io.op2:= Mux(controlUnit.io.immediate, Cat(Fill(16,"b0".U),programMemory.io.instructionRead(19,4)), registerFile.io.data2)
 
   programCounter.io.jump := WireDefault(false.B)
   // Program counter jump mux
