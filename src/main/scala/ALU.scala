@@ -17,7 +17,7 @@ class ALU extends Module {
   switch(io.sel){
     is("b00".U) {io.res := io.op1 + io.op2}
     is("b01".U) {io.res := io.op1 - io.op2}
-    is("b10".U) {io.res := io.op1 * io.io2}
+    is("b10".U) {io.res := io.op1 * io.op2}
   }
 
   io.compRes := io.op1 === io.op2

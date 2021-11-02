@@ -17,7 +17,7 @@ class RegisterFile extends Module {
   regFile(0) := 0.U
 
   io.data1 := regFile(io.readReg1)
-  io.data2 := regFle(io.readReg2)
+  io.data2 := regFile(io.readReg2)
   when (io.writeEnable){
     regFile(io.writeReg) := io.writeData
   }

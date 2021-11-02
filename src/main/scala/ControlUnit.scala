@@ -15,51 +15,51 @@ class ControlUnit extends Module {
     val memoryWrite = Output(Bool())
   })
 
-  io.end := WireDefault(Bool(false))
+  io.end := WireDefault(false.B)
   io.branchSel := WireDefault("b00".U)
-  io.branchInstruction := WireDefault(Bool(false))
-  io.loadFromMem := WireDefault(Bool(false))
-  io.registerWrite := WireDefault(Bool(false))
-  io.immediate := WireDefault(Bool(false))
+  io.branchInstruction := WireDefault(false.B)
+  io.loadFromMem := WireDefault(false.B)
+  io.registerWrite := WireDefault(false.B)
+  io.immediate := WireDefault(false.B)
   io.aluSel := WireDefault("b00".U)
-  io.memoryWrite := WireDefault(Bool(false))
+  io.memoryWrite := WireDefault(false.B)
 
   switch(io.opcode){
     is("b0000".U) { // LD
-      io.loadFromMem := Bool(true)
-      io.registerWrite := Bool(true)
+      io.loadFromMem := true.B
+      io.registerWrite := true.B
       }
     is("b0001".U) { // SD
-      io.memoryWrite := Bool(true)
+      io.memoryWrite := true.B
     }
     is("b0010".U) { //JNE
       io.branchSel := "b01".U
-      io.branchInstruction := Bool(true)
+      io.branchInstruction := true.B
     }
     is("b0011".U) { // JEQ
       io.branchSel := "b10".U
-      io.branchInstruction := Bool(true)
+      io.branchInstruction := true.B
     }
     is("b0100".U){ // MULI
-      io.registerWrite := Bool(true)
-      io.immediate := Bool(true)
+      io.registerWrite := true.B
+      io.immediate := true.B
       io.aluSel := "b10".U
     }
-    is("b0101".B) { // ADD
-      io.registerWrite := Bool(true)
+    is("b0101".U) { // ADD
+      io.registerWrite := true.B
       // aluSel := "b00".U
     }
-    is("b0110") { // ADDI
-      io.registerWrite := Bool(true)
-      io.immediate := Bool(true)
+    is("b0110".U) { // ADDI
+      io.registerWrite := true.B
+      io.immediate := true.B
     }
     is("b0111".U){ // MULI
-      io.registerWrite := Bool(true)
-      io.immediate := Bool(true)
+      io.registerWrite := true.B
+      io.immediate := true.B
       io.aluSel := "b01".U
     }
     is("b1000".U){ // END
-      io.end := Bool(true)
+      io.end := true.B
     }
   }
 

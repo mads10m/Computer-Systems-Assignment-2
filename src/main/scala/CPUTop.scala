@@ -34,31 +34,32 @@ class CPUTop extends Module {
   ////////////////////////////////////////////
   //Continue here with your connections
   ////////////////////////////////////////////
-  controlUnit.io.opcode := programMemory.io.instructionRead(32,29)
+  controlUnit.io.opcode := programMemory.io.instructionRead(31,28)
   programCounter.io.stop := controlUnit.io.end
-  programCounter.io.programCounterJump := programMemory.io.instructionRead(28,23)
+  programCounter.io.programCounterJump := programMemory.io.instructionRead(27,22)
   
   // Register input
   when(controlUnit.io.branchInstruction){
-    registerFile.io.readReg1 := programMemory.io.instructionRead(22,19)
-    registerFile.io.readReg2 := programMemory.io.instructionRead(18,15)
+    registerFile.io.readReg1 := programMemory.io.instructionRead(21,18)
+    registerFile.io.readReg2 := programMemory.io.instructionRead(17,14)
   }.otherwise{
-    registerFile.io.readReg1 := programMemory.io.instructionRead(24,21)
-    registerFile.io.readReg2 := programMemory.io.instructionRead(20,17)
+    registerFile.io.readReg1 := programMemory.io.instructionRead(23,20)
+    registerFile.io.readReg2 := programMemory.io.instructionRead(19,16)
   }
-  registerFile.io.writeReg := programMemory.io.instructionRead(28,25)
+  registerFile.io.writeReg := programMemory.io.instructionRead(27,24)
   registerFile.io.writeEnable := controlUnit.io.registerWrite
 
   // ALU Input
   alu.io.op1 := registerFile.io.data1
   alu.io.sel := controlUnit.io.aluSel
-  alu.io.op2:= Mux(controlUnit.io.immediate, Cat(Fill(16."b0"),programMemory.io.instructionRead(20,16)), registerFile.io.data2)
+  alu.io.op2:= Mux(controlUnit.io.immediate, Cat(Fill(16,"b0".U),programMemory.io.instructionRead(19,15)), registerFile.io.data2)
 
+  programCounter.io.jump := WireDefault(false.B)
   // Program counter jump mux
   switch (controlUnit.io.branchSel){
-    is("b00") {programCounter.io.jump := Bool(false)}
-    is("b01") {programCounter.io.jump := !alu.io.compRes}
-    is("b10") {programCounter.io.jump := alu.io.compRes}
+    is("b00".U) {programCounter.io.jump := false.B}
+    is("b01".U) {programCounter.io.jump := !alu.io.compRes}
+    is("b10".U) {programCounter.io.jump := alu.io.compRes}
   }
 
   // DATA MEMORY Input
@@ -69,6 +70,8 @@ class CPUTop extends Module {
 
   // Register write data mux
   registerFile.io.writeData := Mux(controlUnit.io.loadFromMem, dataMemory.io.dataRead, alu.io.res)
+
+  io.done := controlUnit.io.end //?
 
 
   //This signals are used by the tester for loading the program to the program memory, do not touch
