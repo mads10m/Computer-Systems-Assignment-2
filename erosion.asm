@@ -1,7 +1,7 @@
 # Instruction set
 # LI R I -> ADDI R R0 I
-# LD 0000
-# SD 0001 0000
+# LD 0000 -> LD R R0 mem(R)
+# SD 0001 -> SD R0 R mem(R)
 
 # JNE 0010 T R R
 # JZ T R -> JEQ T R R0
@@ -30,11 +30,7 @@ INIT:
 XLOOP:
 	LI R3, 0
 YLOOP:
-	# Run the erosion
-	# TODO remove border pixels
-
 	# Calc index of input pixel
-	# TODO can mabye use less registers
 	MULI R4, R3, 20
 	ADD R5, R2, R4
 
