@@ -3,38 +3,21 @@ import chisel3.util._
 
 class RegisterFile extends Module {
   val io = IO(new Bundle {
-    //Define the module interface here (inputs/outputs)
-    val reg1 = Input(UInt(4.U))
-    val reg2 = Input(UInt(4.U))
-    val writeReg = Input(UInt(4.U))
-    val data = Input(UInt(32.U))
-    
+    val readReg1 = Input(UInt(4.W))
+    val readReg2 = Input(UInt(4.W))
     val writeEnable = Input(Bool())
-
-    val OutData1 = Output(UInt(32.U))
-    val OutData2 = Output(UInt(32.U))
+    val writeReg = Input(UInt(4.W))
+    val writeData = Input(UInt(32.W))
+    val data1 = Output(UInt(32.W))
+    val data2 = Output(UInt(32.W))
   })
 
-  //Implement this module here
-  val registers = Reg(Vec(16, UInt(32.U)))
-  // R0 = 0
-  registers(0) := 0.U
+  val regFile = RegInit(VecInit(Seq.fill(16)(0.U(32.W))))
 
-  // Overwirte register 
+  io.data1 := regFile(io.readReg1)
+  io.data2 := regFile(io.readReg2)
   when(io.writeEnable) {
-    // Don't overwirte R0
-    when(io.reg1 > 0.U) {
-      register(io.reg1) := io.reg1
-    }
-    // Dont know about reg2...
-    // Don't overwirte R0
-    //when(io.reg2 > 0.U) {
-    //  register(io.reg2) := io.reg2
-    //}
+    regFile(io.writeReg) := io.writeData
   }
-
-  // Set output
-  io.Output1 := registers(io.reg1)
-  io.Output2 := registers(io.reg2)
-
+  regFile(0) := 0.U
 }

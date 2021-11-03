@@ -10,15 +10,15 @@ class ProgramCounter extends Module {
     val programCounter = Output(UInt(16.W))
   })
 
-  //Implement this module here (respect the provided interface, since it used by the tester)
-  val PCReg = RegInit(0.U(16.W))
+  val RegCounter = RegInit(0.U(16.W))
 
-  val incPCSel = io.stop || !io.run
-  val adder = PCReg + 1.U
+  when(!(!io.run || io.stop)) {
+    when(io.jump) {
+      RegCounter := io.programCounterJump
+    }.otherwise {
+      RegCounter := 1.U + RegCounter
+    }
+  }
 
-  val firstMux = Mux(io.jump, io.programCounterJump, adder)
-  val lastMux = Mux(incPCSel, PCReg, firstMux)
-
-  PCReg := lastMux
-  io.programCounter := PCReg
+  io.programCounter := RegCounter
 }
