@@ -1,12 +1,24 @@
 import re
 import sys
+import os
+
+prepend=["import chisel3._\n",
+"import chisel3.util._\n",
+"import chisel3.iotesters\n",
+"import chisel3.iotesters.PeekPokeTester\n",
+"import java.util\n",
+"\n",
+"object Programs {\n",
+"  val program1 = Array(\n"]
+
+postfix = [")\n","}\n"]
+
 
 def main():
-
     if len(sys.argv)!=2:
         print(f'Given arguments: {str(sys.argv)}')
         print("Using erosion.asm as assembler code file")
-        asm_file = "erosion.asm"
+        asm_file = "erosion2.asm"
     else:
         asm_file = sys.argv[1]
 
@@ -62,7 +74,10 @@ def main():
             labels[res.group(1)] = "{0:06b}".format(i)
             arr.pop(i)
 
-    with open("out.bin","w") as f:
+    # with open("out.bin","w") as f:
+    with open(os.path.join(os.getcwd(),"src","test","scala","Programs.scala"),"w") as f:
+        for line in prepend:
+            f.write(line)
         for line in arr:
             res = re.search(jr_regex, line)
             if res != None:
@@ -94,6 +109,8 @@ def main():
             line = line + "0" * (32-len(line))
             line = f'"b{line}".U(32.W),'
             line = line + "\n"
+            f.write(line)
+        for line in postfix:
             f.write(line)
 
 if __name__ == "__main__":
