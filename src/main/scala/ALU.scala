@@ -21,9 +21,4 @@ class ALU extends Module {
   }
 
   io.compRes := io.op1 === io.op2
-  // when(io.op1 === io.op2 ){
-  //   io.compRes := Bool(true)
-  // } .elsewhen(io.op1 =/= io.op2){
-  //   io.compRes := Bool(false)
-  // }
 }
