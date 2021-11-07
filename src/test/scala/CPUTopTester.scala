@@ -28,8 +28,8 @@ class CPUTopTester(dut: CPUTop) extends PeekPokeTester(dut) {
   //Load the program memory with instructions
   System.out.print("\nLoading the program memory with instructions... ")
   //Uncomment one of the following line depending on the program you want to load to the program memory
-  // val program = Programs.program1 // erosion
-  val program = Programs.program2 // test
+  val program = Programs.program1 // erosion
+  // val program = Programs.program2 // test
   for (address <- 0 to program.length - 1) {
     poke(dut.io.testerProgMemEnable, 1)
     poke(dut.io.testerProgMemWriteEnable, 1)
