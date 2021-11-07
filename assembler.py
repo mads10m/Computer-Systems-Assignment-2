@@ -18,7 +18,7 @@ def main():
     if len(sys.argv)!=2:
         print(f'Given arguments: {str(sys.argv)}')
         print("Using erosion.asm as assembler code file")
-        asm_file = "erosion2.asm"
+        asm_file = "erosion.asm"
     else:
         asm_file = sys.argv[1]
 
